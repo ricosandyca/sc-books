@@ -11,7 +11,7 @@ import '@fontsource/inter/800.css';
 import '@fontsource/inter/900.css';
 
 export default extendTheme({
-  config: { initialColorMode: 'light' },
+  config: { initialColorMode: 'dark' },
   styles: {
     global: () => ({
       body: {
@@ -37,17 +37,9 @@ export default extendTheme({
         default: 'white',
         _dark: 'gray.800',
       },
-      fg: {
-        default: 'gray.100',
-        _dark: 'gray.900',
-      },
       text: {
         default: 'gray.700',
         _dark: 'gray.100',
-      },
-      subtext: {
-        default: 'gray.600',
-        _dark: 'gray.300',
       },
     },
   },

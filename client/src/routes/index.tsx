@@ -1,4 +1,6 @@
 import { RouteObject, useRoutes } from 'react-router-dom';
+import { withContainer } from '~/hoc/with-container';
+import { withShell } from '~/hoc/with-shell';
 
 import NotFoundPage from '~/pages/not-found';
 
@@ -6,7 +8,7 @@ import NotFoundPage from '~/pages/not-found';
 const routes: RouteObject[] = [
   {
     path: '*',
-    element: <NotFoundPage />,
+    element: <NotFoundPage h="calc(100vh - 190px)" />,
   },
 ];
 
@@ -15,4 +17,4 @@ function Routes() {
   return element;
 }
 
-export default Routes;
+export default withShell(withContainer(Routes));
