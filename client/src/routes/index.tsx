@@ -1,14 +1,25 @@
 import { RouteObject, useRoutes } from 'react-router-dom';
+import { withBookCategory } from '~/hoc/with-book-category';
+
 import { withContainer } from '~/hoc/with-container';
 import { withShell } from '~/hoc/with-shell';
-
+import BookListByCategory from '~/pages/book-list-by-category';
+import MainPage from '~/pages/main';
 import NotFoundPage from '~/pages/not-found';
 
 // route list
 const routes: RouteObject[] = [
   {
+    path: '/',
+    element: <MainPage />,
+  },
+  {
+    path: '/categories/:categoryId/books',
+    element: <BookListByCategory />,
+  },
+  {
     path: '*',
-    element: <NotFoundPage h="calc(100vh - 190px)" />,
+    element: <NotFoundPage />,
   },
 ];
 
@@ -17,4 +28,4 @@ function Routes() {
   return element;
 }
 
-export default withShell(withContainer(Routes));
+export default withBookCategory(withShell(withContainer(Routes)));

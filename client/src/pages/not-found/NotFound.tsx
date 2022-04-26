@@ -24,7 +24,7 @@ const NotFound: FC<FlexProps> = (props) => {
     <Flex
       position="relative"
       w="full"
-      h="100vh"
+      h="calc(100vh - 190px)"
       alignItems="center"
       justifyContent="center"
       {...props}

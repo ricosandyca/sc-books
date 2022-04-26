@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { FC, memo, ReactNode } from 'react';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
+import { Link as RouterLink } from 'react-router-dom';
 
 import appConfig from '~/config/app';
 import { withContainer } from '~/hoc/with-container';
@@ -25,7 +26,7 @@ const AppBarContent: FC = withContainer(() => {
   return (
     <HStack h="full" w="full" align="center">
       {/* App logo */}
-      <HStack flex={1}>
+      <HStack as={RouterLink} to="/" flex={1}>
         <Box>
           <Image alt="App logo" src="/sejutacita-logo.webp" h="50px" w="50px" />
         </Box>
@@ -69,7 +70,7 @@ const Shell: FC<ShellProps> = ({ children }) => {
       </Box>
 
       {/* Main content */}
-      <Box pt={['100px', null, null, null, '120px']} pb="60px" zIndex={1}>
+      <Box pt={['100px', null, null, null, '120px']} h="full" zIndex={1}>
         {children}
       </Box>
     </Box>

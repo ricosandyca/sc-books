@@ -11,7 +11,7 @@ import '@fontsource/inter/800.css';
 import '@fontsource/inter/900.css';
 
 export default extendTheme({
-  config: { initialColorMode: 'dark' },
+  config: { initialColorMode: 'light' },
   styles: {
     global: () => ({
       body: {
