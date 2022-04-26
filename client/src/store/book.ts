@@ -1,11 +1,21 @@
-import { atom, selector } from 'recoil';
+import { atom, atomFamily, selector } from 'recoil';
 
 import { Book } from '~/types/book';
 import { persistentEffect } from './effects/persistent-effect';
 
-export const bookListState = atom<Book[]>({
+export const bookListState = atomFamily<Book[], number>({
   key: 'bookListState',
   default: [],
+});
+
+export const bookCategoryIdState = atom<number | null>({
+  key: 'bookCategoryIdState',
+  default: null,
+});
+
+export const bookListPageState = atom<number>({
+  key: 'bookListPageState',
+  default: 0,
 });
 
 export const bookmarkedListState = atom<Book[]>({
@@ -22,7 +32,8 @@ export const bookSearchKeywordState = atom<string>({
 export const filteredBookListState = selector<Book[]>({
   key: 'filteredBookListState',
   get: ({ get }) => {
-    const books = get(bookListState);
+    const bookCategoryId = get(bookCategoryIdState);
+    const books = get(bookListState(bookCategoryId ?? 0));
     const searchKeyword = get(bookSearchKeywordState);
 
     if (!searchKeyword.trim()) return books;
