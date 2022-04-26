@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import BookList from '~/components/BookList';
 import BookListSkeleton from '~/components/BookListSkeleton';
+import { withContainer } from '~/hoc/with-container';
 import { useBookListAction } from '~/hooks/use-book';
 import NotFoundPage from '~/pages/not-found';
 
@@ -20,15 +21,13 @@ const BookListByCategory: FC = () => {
 
   return (
     <VStack spacing={12}>
-      <BookList books={books} />
-      {isLoading && <BookListSkeleton noOfSkeletons={5} />}
+      <VStack spacing={[6, 6, 8, null]}>
+        <BookList books={books} />
+        {isLoading && <BookListSkeleton noOfSkeletons={10} />}
+      </VStack>
+
       {hasNextPage && (
-        <Button
-          colorScheme="primary"
-          variant="outline"
-          onClick={loadMoreBooks}
-          isLoading={isLoading}
-        >
+        <Button variant="outline" onClick={loadMoreBooks} isLoading={isLoading}>
           Load More Books
         </Button>
       )}
@@ -36,4 +35,4 @@ const BookListByCategory: FC = () => {
   );
 };
 
-export default BookListByCategory;
+export default withContainer(BookListByCategory);

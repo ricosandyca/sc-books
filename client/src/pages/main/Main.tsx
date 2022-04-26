@@ -1,7 +1,9 @@
+import { Center, Spinner } from '@chakra-ui/react';
 import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
+import { withContainer } from '~/hoc/with-container';
 import { categoryListState } from '~/store/category';
 
 const Main: FC = () => {
@@ -15,7 +17,11 @@ const Main: FC = () => {
       return navigate(`/categories/${defaultCategoryId}/books`);
   }, [categories]);
 
-  return null;
+  return (
+    <Center h="calc(100vh - 190px)">
+      <Spinner size="xl" />
+    </Center>
+  );
 };
 
-export default Main;
+export default withContainer(Main);

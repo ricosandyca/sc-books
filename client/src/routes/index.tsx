@@ -1,7 +1,6 @@
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { withBookCategory } from '~/hoc/with-book-category';
 
-import { withContainer } from '~/hoc/with-container';
 import { withShell } from '~/hoc/with-shell';
 import BookListByCategory from '~/pages/book-list-by-category';
 import MainPage from '~/pages/main';
@@ -28,4 +27,4 @@ function Routes() {
   return element;
 }
 
-export default withBookCategory(withShell(withContainer(Routes)));
+export default withBookCategory(withShell(Routes));

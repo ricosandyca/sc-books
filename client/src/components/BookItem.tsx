@@ -9,19 +9,20 @@ export type BookItemProps = {
 
 const BookItem: FC<BookItemProps> = ({ book }) => {
   return (
-    <VStack>
+    <VStack spacing={4}>
       {/* Book image */}
       <Image
         src={book.cover_url}
-        shadow="rgb(0 127 255 / 10%) 0px 20px 25px, rgb(0 127 255 / 4%) 0px 10px 10px"
+        shadow="rgb(0 40 60 / 10%) 0px 20px 25px, rgb(0 127 255 / 4%) 0px 10px 10px"
         rounded="lg"
       />
 
       {/* Book info */}
-      <VStack align="flex-start" w="full">
-        <Text fontSize="md" fontWeight="medium">
+      <VStack align="flex-start" w="full" spacing={0.5}>
+        <Text fontSize="md" fontWeight="medium" noOfLines={2}>
           {book.title}
         </Text>
+        <Text fontSize="sm">{book.authors.join(', ')}</Text>
       </VStack>
     </VStack>
   );

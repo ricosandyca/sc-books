@@ -24,9 +24,9 @@ const AppBarContent: FC = withContainer(() => {
   const icon = useColorModeValue(MdDarkMode, MdLightMode);
 
   return (
-    <HStack h="full" w="full" align="center">
+    <HStack h="full" w="full" align="center" justify="space-between">
       {/* App logo */}
-      <HStack as={RouterLink} to="/" flex={1}>
+      <HStack as={RouterLink} to="/">
         <Box>
           <Image alt="App logo" src="/sejutacita-logo.webp" h="50px" w="50px" />
         </Box>
