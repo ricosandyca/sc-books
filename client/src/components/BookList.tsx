@@ -11,7 +11,7 @@ export type BookListProps = {
 const BookList: FC<BookListProps> = ({ books }) => {
   return (
     <Box>
-      <SimpleGrid columns={[1, 2, 3, 3, 4]} spacing={[4, 4, 6, null]}>
+      <SimpleGrid columns={[2, 3, 4, 4, 5]} spacing={[6, 6, 8, null]}>
         {books.map((book) => (
           <BookItem key={book.id} book={book} />
         ))}

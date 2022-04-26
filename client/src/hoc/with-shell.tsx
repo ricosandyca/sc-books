@@ -7,8 +7,11 @@ export function withShell<T>(Content: ComponentType<T>): FC<T> {
   return function ShellContent(props: T) {
     return (
       <Shell>
+        {/* Main content */}
         <Content {...props} />
-        <Footer mt={[6, 10, 14, 28]} />
+
+        {/* Footer */}
+        <Footer mt={[8, 12, 16, 20]} />
       </Shell>
     );
   };

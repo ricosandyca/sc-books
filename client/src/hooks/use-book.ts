@@ -4,11 +4,12 @@ import { useRecoilState } from 'recoil';
 import { getBooksByCategory } from '~/services/book';
 import { bookListState } from '~/store/book';
 
-export const DEFAULT_BOOK_LIST_SIZE = 8;
+export const DEFAULT_BOOK_LIST_SIZE = 10;
 
 export function useBookListAction(categoryId: number) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const [page, setPage] = useState(0);
   const [books, setBooks] = useRecoilState(bookListState);
 
@@ -21,14 +22,15 @@ export function useBookListAction(categoryId: number) {
         page,
         DEFAULT_BOOK_LIST_SIZE,
       );
+      if (newBooks.length < DEFAULT_BOOK_LIST_SIZE) setHasNextPage(false);
       setBooks((books) => [...books, ...newBooks]);
       setPage((page) => ++page);
     } catch (err: any) {
-      setError(err.message);
+      if (books.length <= 0) setError(err.message);
     } finally {
       setIsLoading(false);
     }
-  }, [categoryId, page]);
+  }, [categoryId, page, books]);
 
-  return { books, loadMoreBooks, isLoading, error };
+  return { books, loadMoreBooks, hasNextPage, isLoading, error };
 }
