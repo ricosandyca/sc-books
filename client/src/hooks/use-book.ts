@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { getBooksByCategory } from '~/services/book';
@@ -6,8 +6,8 @@ import { bookListState } from '~/store/book';
 
 export const DEFAULT_BOOK_LIST_SIZE = 10;
 
-export function useBookListAction(categoryId: number) {
-  const [isLoading, setIsLoading] = useState(false);
+export function useBookListAction(categoryId: number, initFirstPage: boolean) {
+  const [isLoading, setIsLoading] = useState(initFirstPage);
   const [error, setError] = useState<string | null>(null);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [page, setPage] = useState(0);
@@ -22,6 +22,7 @@ export function useBookListAction(categoryId: number) {
         page,
         DEFAULT_BOOK_LIST_SIZE,
       );
+      console.log(newBooks);
       if (newBooks.length < DEFAULT_BOOK_LIST_SIZE) setHasNextPage(false);
       setBooks((books) => [...books, ...newBooks]);
       setPage((page) => ++page);
@@ -31,6 +32,10 @@ export function useBookListAction(categoryId: number) {
       setIsLoading(false);
     }
   }, [categoryId, page, books]);
+
+  useEffect(() => {
+    if (initFirstPage) loadMoreBooks();
+  }, [initFirstPage, categoryId]);
 
   return { books, loadMoreBooks, hasNextPage, isLoading, error };
 }

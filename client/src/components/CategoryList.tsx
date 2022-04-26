@@ -5,13 +5,21 @@ import { useRecoilValue } from 'recoil';
 import { categoryListState } from '~/store/category';
 import CategoryChip from './CategoryChip';
 
-const CategoryList: FC = () => {
+export type CategoryListProps = {
+  selectedCategoryId: number;
+};
+
+const CategoryList: FC<CategoryListProps> = ({ selectedCategoryId }) => {
   const categories = useRecoilValue(categoryListState);
 
   return (
     <HStack w="full" overflowX="auto">
       {categories.map((category) => (
-        <CategoryChip key={category.id} category={category} />
+        <CategoryChip
+          key={category.id}
+          category={category}
+          isActive={category.id === selectedCategoryId}
+        />
       ))}
     </HStack>
   );

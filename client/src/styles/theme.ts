@@ -1,5 +1,4 @@
 import { extendTheme } from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools';
 import colors from '@chakra-ui/theme/foundations/colors';
 import '@fontsource/inter/100.css';
 import '@fontsource/inter/200.css';
@@ -14,19 +13,10 @@ import '@fontsource/inter/900.css';
 export default extendTheme({
   config: { initialColorMode: 'light' },
   styles: {
-    global: (props: any) => ({
+    global: () => ({
       body: {
         color: 'text',
         bg: 'bg',
-      },
-      '::-webkit-scrollbar': {
-        w: '10px',
-        h: '10px',
-        bg: 'transparent',
-      },
-      '::-webkit-scrollbar-thumb': {
-        borderRadius: 'full',
-        bg: mode('gray.300', 'gray.600')(props),
       },
     }),
   },

@@ -1,5 +1,5 @@
 import { Button, Heading, VStack } from '@chakra-ui/react';
-import { FC, useEffect, useMemo } from 'react';
+import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
@@ -10,25 +10,13 @@ import { withContainer } from '~/hoc/with-container';
 import { useBookListAction } from '~/hooks/use-book';
 import { useDocumentTitle } from '~/hooks/use-document-title';
 import NotFoundPage from '~/pages/not-found';
-import { categoryListState } from '~/store/category';
+import { selectedCategoryState } from '~/store/category';
 
 const BookListByCategory: FC = () => {
   const { categoryId } = useParams();
-  const categories = useRecoilValue(categoryListState);
+  const selectedCategory = useRecoilValue(selectedCategoryState(+categoryId!));
   const { loadMoreBooks, books, hasNextPage, isLoading, error } =
-    useBookListAction(+categoryId!);
-
-  // get selected category detail
-  const selectedCategory = useMemo(() => {
-    return categories.find(
-      ({ id }) => id.toString() === categoryId?.toString(),
-    );
-  }, [categories, categoryId]);
-
-  // init book data
-  useEffect(() => {
-    loadMoreBooks().then();
-  }, []);
+    useBookListAction(+categoryId!, true);
 
   // change title
   useDocumentTitle(selectedCategory?.name);
@@ -36,17 +24,20 @@ const BookListByCategory: FC = () => {
   if (error) return <NotFoundPage />;
 
   return (
-    <VStack spacing={14}>
-      {/* Category selection */}
-      <CategoryList />
-
+    <VStack spacing={12}>
       {/* Book list */}
       <VStack w="full" align="flex-start" spacing={6}>
+        {/* Category title */}
         <Heading as="h2" fontSize="2xl">
           {selectedCategory?.name}
         </Heading>
-        <VStack spacing={[6, 6, 8, null]}>
-          <BookList books={books} />
+
+        {/* Category selection */}
+        <CategoryList selectedCategoryId={+categoryId!} />
+
+        {/* Book list section */}
+        <VStack w="full" spacing={[6, 6, 8, null]}>
+          {books.length > 0 && <BookList books={books} />}
           {isLoading && <BookListSkeleton noOfSkeletons={10} />}
         </VStack>
       </VStack>

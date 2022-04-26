@@ -7,9 +7,10 @@ import { textToColor } from '~/utils/color';
 
 export type CategoryChipProps = {
   category: Category;
+  isActive: boolean;
 };
 
-const CategoryChip: FC<CategoryChipProps> = ({ category }) => {
+const CategoryChip: FC<CategoryChipProps> = ({ category, isActive }) => {
   const navigate = useNavigate();
   const colorScheme = useMemo(() => {
     return textToColor(category.name);
@@ -23,6 +24,7 @@ const CategoryChip: FC<CategoryChipProps> = ({ category }) => {
       rounded="full"
       fontWeight="medium"
       flexShrink={0}
+      variant={isActive ? 'solid' : 'outline'}
       onClick={() => navigate(`/categories/${category.id}/books`)}
     >
       {category.name}
