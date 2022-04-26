@@ -4,7 +4,7 @@ import { Book } from '~/types/book';
 export async function getBooksByCategory(
   categoryId: number,
   page = 0,
-  size: 10,
+  size = 10,
 ) {
   const res = await fetch(
     appConfig.apiURL +

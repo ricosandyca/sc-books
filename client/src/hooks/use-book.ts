@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { getBooksByCategory } from '~/services/book';
 import { bookListState } from '~/store/book';
 
-export const DEFAULT_BOOK_LIST_SIZE = 10;
+export const DEFAULT_BOOK_LIST_SIZE = 8;
 
 export function useBookListAction(categoryId: number) {
   const [isLoading, setIsLoading] = useState(false);

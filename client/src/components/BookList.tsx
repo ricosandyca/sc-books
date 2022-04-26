@@ -1,4 +1,4 @@
-import { VStack } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 import { FC, memo } from 'react';
 
 import { Book } from '~/types/book';
@@ -10,11 +10,13 @@ export type BookListProps = {
 
 const BookList: FC<BookListProps> = ({ books }) => {
   return (
-    <VStack>
-      {books.map((book) => (
-        <BookItem key={book.id} book={book} />
-      ))}
-    </VStack>
+    <Box>
+      <SimpleGrid columns={[1, 2, 3, 3, 4]} spacing={[4, 4, 6, null]}>
+        {books.map((book) => (
+          <BookItem key={book.id} book={book} />
+        ))}
+      </SimpleGrid>
+    </Box>
   );
 };
 
