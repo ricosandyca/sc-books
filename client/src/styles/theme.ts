@@ -43,4 +43,13 @@ export default extendTheme({
       },
     },
   },
+  components: {
+    Button: {
+      baseStyle: {
+        _focus: {
+          boxShadow: 'none',
+        },
+      },
+    },
+  },
 });
