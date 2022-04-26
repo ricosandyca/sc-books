@@ -1,11 +1,21 @@
-import { atom, selector } from 'recoil';
+import { atom, atomFamily, selectorFamily } from 'recoil';
 
-import { Book } from '~/types/book';
+import { Book, BookPagination } from '~/types/book';
 import { persistentEffect } from './effects/persistent-effect';
 
-export const bookListState = atom<Book[]>({
+export const bookListState = atomFamily<Book[], number>({
   key: 'bookListState',
   default: [],
+});
+
+export const bookListPaginationState = atomFamily<BookPagination, number>({
+  key: 'bookListPaginationState',
+  default: {
+    page: 0,
+    hasNextPage: true,
+    itemsPerPage: 10, // default items per page
+    isLoading: false,
+  },
 });
 
 export const bookmarkedListState = atom<Book[]>({
@@ -19,27 +29,29 @@ export const bookSearchKeywordState = atom<string>({
   default: '',
 });
 
-export const filteredBookListState = selector<Book[]>({
+export const filteredBookListState = selectorFamily<Book[], number>({
   key: 'filteredBookListState',
-  get: ({ get }) => {
-    const books = get(bookListState);
-    const searchKeyword = get(bookSearchKeywordState);
+  get:
+    (categoryId) =>
+    ({ get }) => {
+      const books = get(bookListState(categoryId));
+      const searchKeyword = get(bookSearchKeywordState);
 
-    if (!searchKeyword.trim()) return books;
+      if (!searchKeyword.trim()) return books;
 
-    // filter books by keyword
-    const keys = searchKeyword
-      .trim()
-      .toLowerCase()
-      .split(/[^0-9a-z]/gi);
+      // filter books by keyword
+      const keys = searchKeyword
+        .trim()
+        .toLowerCase()
+        .split(/[^0-9a-z]/gi);
 
-    return books.filter((book) => {
-      const authorsStr = book.authors.join(' ').toLowerCase();
-      const title = book.title.toLowerCase();
+      return books.filter((book) => {
+        const authorsStr = book.authors.join(' ').toLowerCase();
+        const title = book.title.toLowerCase();
 
-      return keys.some(
-        (key) => title.includes(key) || authorsStr.includes(key),
-      );
-    });
-  },
+        return keys.some(
+          (key) => title.includes(key) || authorsStr.includes(key),
+        );
+      });
+    },
 });

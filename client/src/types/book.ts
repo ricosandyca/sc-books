@@ -13,3 +13,10 @@ export type Book = {
   sections: BookSection[];
   audio_length: 840;
 };
+
+export type BookPagination = {
+  page: number;
+  hasNextPage: boolean;
+  itemsPerPage: number;
+  isLoading: boolean;
+};

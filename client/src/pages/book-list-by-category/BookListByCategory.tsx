@@ -15,8 +15,10 @@ import { selectedCategoryState } from '~/store/category';
 const BookListByCategory: FC = () => {
   const { categoryId } = useParams();
   const selectedCategory = useRecoilValue(selectedCategoryState(+categoryId!));
-  const { loadMoreBooks, books, hasNextPage, isLoading, error } =
-    useBookListAction(+categoryId!, true);
+  const { loadMoreBooks, books, pagination, error } = useBookListAction(
+    +categoryId!,
+    true,
+  );
 
   // change title
   useDocumentTitle(selectedCategory?.name);
@@ -38,13 +40,17 @@ const BookListByCategory: FC = () => {
         {/* Book list section */}
         <VStack w="full" spacing={[6, 6, 8, null]}>
           {books.length > 0 && <BookList books={books} />}
-          {isLoading && <BookListSkeleton noOfSkeletons={10} />}
+          {pagination.isLoading && <BookListSkeleton noOfSkeletons={10} />}
         </VStack>
       </VStack>
 
       {/* Load more button */}
-      {hasNextPage && (
-        <Button variant="outline" onClick={loadMoreBooks} isLoading={isLoading}>
+      {pagination.hasNextPage && (
+        <Button
+          variant="outline"
+          onClick={loadMoreBooks}
+          isLoading={pagination.isLoading}
+        >
           Load More Books
         </Button>
       )}

@@ -2,40 +2,42 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { getBooksByCategory } from '~/services/book';
-import { bookListState } from '~/store/book';
-
-export const DEFAULT_BOOK_LIST_SIZE = 10;
+import { bookListPaginationState, bookListState } from '~/store/book';
 
 export function useBookListAction(categoryId: number, initFirstPage: boolean) {
-  const [isLoading, setIsLoading] = useState(initFirstPage);
   const [error, setError] = useState<string | null>(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
-  const [page, setPage] = useState(0);
-  const [books, setBooks] = useRecoilState(bookListState);
+  const [books, setBooks] = useRecoilState(bookListState(categoryId));
+  const [pagination, setPagination] = useRecoilState(
+    bookListPaginationState(categoryId),
+  );
 
   const loadMoreBooks = useCallback(async () => {
     try {
-      setIsLoading(true);
+      setPagination((p) => ({ ...p, isLoading: true }));
       setError(null);
       const newBooks = await getBooksByCategory(
         categoryId,
-        page,
-        DEFAULT_BOOK_LIST_SIZE,
+        pagination.page,
+        pagination.itemsPerPage,
       );
-      console.log(newBooks);
-      if (newBooks.length < DEFAULT_BOOK_LIST_SIZE) setHasNextPage(false);
       setBooks((books) => [...books, ...newBooks]);
-      setPage((page) => ++page);
+      setPagination((p) => ({
+        ...p,
+        page: p.page + 1,
+        hasNextPage: newBooks.length >= pagination.itemsPerPage,
+      }));
     } catch (err: any) {
-      if (books.length <= 0) setError(err.message);
+      if (books.length <= 0) return setError(err.message);
+      setPagination((p) => ({ ...p, hasNextPage: false }));
     } finally {
-      setIsLoading(false);
+      setPagination((p) => ({ ...p, isLoading: false }));
     }
-  }, [categoryId, page, books]);
+  }, [categoryId, pagination, books]);
 
   useEffect(() => {
-    if (initFirstPage) loadMoreBooks();
-  }, [initFirstPage, categoryId]);
+    // only init books data if the page is zero
+    if (initFirstPage) if (pagination.page <= 0) loadMoreBooks();
+  }, [initFirstPage, pagination.page]);
 
-  return { books, loadMoreBooks, hasNextPage, isLoading, error };
+  return { books, loadMoreBooks, pagination, error };
 }
