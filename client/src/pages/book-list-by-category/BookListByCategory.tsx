@@ -37,6 +37,7 @@ const BookListByCategory: FC = () => {
 
         {/* Category selection */}
         <CategoryList selectedCategoryId={+categoryId!} />
+
         <SearchBookInput />
 
         {/* Book list section */}
@@ -53,7 +54,7 @@ const BookListByCategory: FC = () => {
           onClick={loadMoreBooks}
           isLoading={pagination.isLoading}
         >
-          Load More Books
+          Load more
         </Button>
       )}
     </VStack>
