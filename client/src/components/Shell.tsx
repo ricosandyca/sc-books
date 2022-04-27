@@ -9,8 +9,12 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { FC, memo, ReactNode } from 'react';
-import { MdDarkMode, MdLightMode } from 'react-icons/md';
-import { Link as RouterLink } from 'react-router-dom';
+import {
+  MdDarkMode,
+  MdLightMode,
+  MdOutlineBookmarkBorder,
+} from 'react-icons/md';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import appConfig from '~/config/app';
 import { withContainer } from '~/hoc/with-container';
@@ -20,6 +24,7 @@ export type ShellProps = {
 };
 
 const AppBarContent: FC = withContainer(() => {
+  const navigate = useNavigate();
   const { toggleColorMode } = useColorMode();
   const icon = useColorModeValue(MdDarkMode, MdLightMode);
 
@@ -28,20 +33,34 @@ const AppBarContent: FC = withContainer(() => {
       {/* App logo */}
       <HStack as={RouterLink} to="/">
         <Box>
-          <Image alt="App logo" src="/sejutacita-logo.webp" h="50px" w="50px" />
+          <Image alt="App logo" src="/sejutacita-logo.webp" h="42px" w="42px" />
         </Box>
         <Heading fontWeight="500" fontSize="xl">
           {appConfig.appName}
         </Heading>
       </HStack>
 
-      {/* Toggle theme button */}
-      <IconButton
-        aria-label="Toggle theme"
-        icon={<Icon fontSize="lg" as={icon} />}
-        variant="outline"
-        onClick={toggleColorMode}
-      />
+      <HStack>
+        {/* Bookmark button */}
+        <IconButton
+          aria-label="Bookmark page"
+          icon={<Icon fontSize="lg" as={MdOutlineBookmarkBorder} />}
+          variant="outline"
+          onClick={() => navigate('/bookmark')}
+          color="primary"
+          borderRadius="xl"
+        />
+
+        {/* Toggle theme button */}
+        <IconButton
+          aria-label="Toggle theme"
+          icon={<Icon fontSize="lg" as={icon} />}
+          variant="outline"
+          onClick={toggleColorMode}
+          color="primary"
+          borderRadius="xl"
+        />
+      </HStack>
     </HStack>
   );
 });

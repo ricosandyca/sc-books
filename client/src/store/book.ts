@@ -18,12 +18,6 @@ export const bookListPaginationState = atomFamily<BookPagination, number>({
   },
 });
 
-export const bookmarkedListState = atom<Book[]>({
-  key: 'bookmarkedListState',
-  default: [],
-  effects: [persistentEffect('bookmarkedListState')],
-});
-
 export const bookSearchKeywordState = atom<string>({
   key: 'bookSearchKeywordState',
   default: '',
@@ -70,4 +64,10 @@ export const filteredBookListState = selectorFamily<Book[], number>({
         );
       });
     },
+});
+
+export const bookmarkedListState = atom<Book[]>({
+  key: 'bookmarkedListState',
+  default: [],
+  effects: [persistentEffect('bookmarkedListState')],
 });

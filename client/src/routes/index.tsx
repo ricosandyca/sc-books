@@ -3,6 +3,7 @@ import { withBookCategory } from '~/hoc/with-book-category';
 
 import { withShell } from '~/hoc/with-shell';
 import BookListByCategory from '~/pages/book-list-by-category';
+import Bookmark from '~/pages/bookmark';
 import MainPage from '~/pages/main';
 import NotFoundPage from '~/pages/not-found';
 
@@ -15,6 +16,10 @@ const routes: RouteObject[] = [
   {
     path: '/categories/:categoryId/books',
     element: <BookListByCategory />,
+  },
+  {
+    path: '/bookmark',
+    element: <Bookmark />,
   },
   {
     path: '*',

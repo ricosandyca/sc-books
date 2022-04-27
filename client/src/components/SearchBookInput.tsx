@@ -26,12 +26,14 @@ const SearchBookInput: FC<InputGroupProps> = (props) => {
         onChange={(e) => setSearch(e.target.value)}
         rounded="lg"
       />
-      <InputRightElement
-        as={IconButton}
-        variant="unstyled"
-        children={<Icon fontSize="lg" as={AiFillCloseCircle} />}
-        onClick={() => setSearch('')}
-      />
+      {search.trim() && (
+        <InputRightElement
+          as={IconButton}
+          variant="unstyled"
+          children={<Icon fontSize="lg" as={AiFillCloseCircle} />}
+          onClick={() => setSearch('')}
+        />
+      )}
     </InputGroup>
   );
 };
