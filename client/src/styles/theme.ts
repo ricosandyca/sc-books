@@ -25,13 +25,18 @@ export default extendTheme({
     body: "Inter, 'sans-serif'",
   },
   colors: {
-    primary: colors.blue,
+    primary: colors.pink,
+    secondary: colors.blue,
   },
   semanticTokens: {
     colors: {
       primary: {
         default: 'primary.500',
         _dark: 'primary.200',
+      },
+      secondary: {
+        default: 'secondary.500',
+        _dark: 'secondary.200',
       },
       bg: {
         default: 'white',
@@ -40,6 +45,10 @@ export default extendTheme({
       text: {
         default: 'gray.700',
         _dark: 'gray.100',
+      },
+      subtext: {
+        default: 'gray.500',
+        _dark: 'gray.300',
       },
     },
   },

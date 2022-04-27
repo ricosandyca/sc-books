@@ -1,24 +1,33 @@
 import { Button, ButtonProps, Text } from '@chakra-ui/react';
 import { FC, memo, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { categoryListState } from '~/store/category';
 
-import { Category } from '~/types/category';
 import { textToColor } from '~/utils/color';
 
 export type CategoryChipProps = ButtonProps & {
-  category: Category;
+  categoryId: number;
   isActive: boolean;
 };
 
 const CategoryChip: FC<CategoryChipProps> = ({
-  category,
+  categoryId,
   isActive,
   ...buttonProps
 }) => {
   const navigate = useNavigate();
+  const categories = useRecoilValue(categoryListState);
+
+  const category = useMemo(() => {
+    return categories.find(({ id }) => id === categoryId);
+  }, [categories, categoryId]);
+
   const colorScheme = useMemo(() => {
-    return textToColor(category.name);
-  }, [category.name]);
+    return textToColor(`${category?.name}`);
+  }, [category?.name]);
+
+  if (!category) return null;
 
   return (
     <Button

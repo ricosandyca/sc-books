@@ -71,3 +71,8 @@ export const bookmarkedListState = atom<Book[]>({
   default: [],
   effects: [persistentEffect('bookmarkedListState')],
 });
+
+export const bookModalState = atom<Book | null>({
+  key: 'bookModalState',
+  default: null,
+});

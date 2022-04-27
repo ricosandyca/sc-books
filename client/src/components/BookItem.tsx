@@ -8,14 +8,13 @@ import {
   Tooltip,
   VStack,
 } from '@chakra-ui/react';
-import { FC, memo, useMemo } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { MdBookmarkRemove, MdOutlineBookmarkAdd } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { useBookmarkAction } from '~/hooks/use-bookmark';
-import { bookSearchKeywordState } from '~/store/book';
-import { categoryListState } from '~/store/category';
+import { bookModalState, bookSearchKeywordState } from '~/store/book';
 
 import { Book } from '~/types/book';
 import CategoryChip from './CategoryChip';
@@ -28,12 +27,12 @@ export type BookItemProps = {
 const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
   const navigate = useNavigate();
   const setSearch = useSetRecoilState(bookSearchKeywordState);
-  const categories = useRecoilValue(categoryListState);
+  const setBookModal = useSetRecoilState(bookModalState);
   const { isBookmarked, handleToggleBookmark } = useBookmarkAction(book.id);
 
-  const category = useMemo(() => {
-    return categories.find(({ id }) => id === book.category_id);
-  }, [book.category_id, categories]);
+  const handleOpenBookDetailModal = useCallback(() => {
+    setBookModal(book);
+  }, [book]);
 
   return (
     <VStack spacing={3}>
@@ -45,9 +44,12 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
           '.fg-gradient': {
             opacity: 0.75,
           },
+          '.bookmark': {
+            opacity: 1,
+          },
         }}
       >
-        <Box>
+        <Box cursor="pointer" onClick={handleOpenBookDetailModal}>
           <Image
             src={book.cover_url}
             rounded="lg"
@@ -68,7 +70,7 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
 
         {/* Bookmark toggle button */}
         <Tooltip
-          label={isBookmarked ? 'Remove from bookmark' : 'Bookmark this book'}
+          label={isBookmarked ? 'Remove from bookmark' : 'Add to bookmark'}
           rounded="md"
           placement="left"
           closeOnClick={false}
@@ -76,6 +78,8 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
         >
           <IconButton
             aria-label="Bookmark"
+            className="bookmark"
+            opacity={0}
             icon={
               <Icon
                 fontSize="xl"
@@ -98,13 +102,13 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
 
       {/* Book info */}
       <VStack align="flex-start" w="full" spacing={0.5}>
-        {showCategory && category && (
+        {showCategory && (
           <CategoryChip
-            category={category}
-            isActive={true}
+            categoryId={book.category_id}
             size="xs"
             mb={1}
             maxW="full"
+            isActive
           />
         )}
 

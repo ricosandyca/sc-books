@@ -1,6 +1,7 @@
 import { RouteObject, useRoutes } from 'react-router-dom';
 
 import { withBookCategory } from '~/hoc/with-book-category';
+import { withBookModal } from '~/hoc/with-book-modal';
 import { withShell } from '~/hoc/with-shell';
 import BookListByCategory from '~/pages/book-list-by-category';
 import Bookmark from '~/pages/bookmark';
@@ -32,4 +33,14 @@ function Routes() {
   return element;
 }
 
-export default withBookCategory(withShell(Routes));
+//
+export default withBookCategory(
+  // to always retrieve categories data from API
+  withShell(
+    // wrapped with app shell contains app bar
+    withBookModal(
+      // to globally access single book modal data
+      Routes,
+    ),
+  ),
+);

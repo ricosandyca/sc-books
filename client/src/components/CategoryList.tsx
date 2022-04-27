@@ -17,7 +17,7 @@ const CategoryList: FC<CategoryListProps> = ({ selectedCategoryId }) => {
       {categories.map((category) => (
         <CategoryChip
           key={category.id}
-          category={category}
+          categoryId={category.id}
           isActive={category.id === selectedCategoryId}
         />
       ))}
