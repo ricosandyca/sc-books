@@ -6,14 +6,15 @@ import BookItem from './BookItem';
 
 export type BookListProps = {
   books: Book[];
+  showCategory?: boolean;
 };
 
-const BookList: FC<BookListProps> = ({ books }) => {
+const BookList: FC<BookListProps> = ({ books, showCategory }) => {
   return (
     <Box>
-      <SimpleGrid columns={[2, 3, 4, 4, 5]} spacing={[6, 6, 8, null]}>
+      <SimpleGrid columns={[2, 2, 3, 4, 5]} spacing={[6, 6, 8, null]}>
         {books.map((book) => (
-          <BookItem key={book.id} book={book} />
+          <BookItem key={book.id} book={book} showCategory={showCategory} />
         ))}
       </SimpleGrid>
     </Box>

@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { FC, memo } from 'react';
 import { MdBookmarkRemove, MdOutlineBookmarkAdd } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { useBookmarkAction } from '~/hooks/use-bookmark';
 
@@ -19,9 +20,11 @@ import { Book } from '~/types/book';
 
 export type BookItemProps = {
   book: Book;
+  showCategory?: boolean;
 };
 
 const BookItem: FC<BookItemProps> = ({ book }) => {
+  const navigate = useNavigate();
   const setSearch = useSetRecoilState(bookSearchKeywordState);
   const { isBookmarked, handleToggleBookmark } = useBookmarkAction(book.id);
 
@@ -80,7 +83,10 @@ const BookItem: FC<BookItemProps> = ({ book }) => {
               variant="link"
               size="sm"
               fontWeight="normal"
-              onClick={() => setSearch(`author: ${author}`)}
+              onClick={() => {
+                setSearch(`author: ${author}`);
+                navigate(`/categories/${book.category_id}/books`);
+              }}
               _after={
                 i < book.authors.length - 1
                   ? { content: '","', mr: 1 }
