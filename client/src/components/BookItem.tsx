@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { FC, memo, useMemo } from 'react';
 import { MdBookmarkRemove, MdOutlineBookmarkAdd } from 'react-icons/md';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { useBookmarkAction } from '~/hooks/use-bookmark';
@@ -48,7 +48,7 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
           },
         }}
       >
-        <Box as={RouterLink} to={`/books/${book.id}`}>
+        <Box>
           <Image
             src={book.cover_url}
             shadow="rgb(0 40 60 / 10%) 0px 20px 25px, rgb(0 127 255 / 4%) 0px 10px 10px"
