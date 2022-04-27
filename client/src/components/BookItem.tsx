@@ -41,7 +41,6 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
       <Box
         position="relative"
         rounded="lg"
-        overflow="hidden"
         _hover={{
           '.fg-gradient': {
             opacity: 0.75,
@@ -51,6 +50,7 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
         <Box>
           <Image
             src={book.cover_url}
+            rounded="lg"
             shadow="rgb(0 40 60 / 10%) 0px 20px 25px, rgb(0 127 255 / 4%) 0px 10px 10px"
           />
           <Box
@@ -60,7 +60,8 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
             w="full"
             h="full"
             top={0}
-            bgGradient="linear(to-b, transparent -10%, bg 100%)"
+            rounded="lg"
+            bgGradient="linear(to-b, transparent, bg 150%)"
             transitionDuration=".3s"
           />
         </Box>
@@ -87,10 +88,10 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
             onClick={() => handleToggleBookmark(book)}
             transitionDuration=".2s"
             size="sm"
-            bg="text"
+            bg={isBookmarked ? 'primary' : 'text'}
             color="bg"
-            _active={{ bg: 'text' }}
-            _hover={{ bg: 'text' }}
+            _active={{ bg: isBookmarked ? 'primary' : 'text' }}
+            _hover={{ bg: isBookmarked ? 'primary' : 'text' }}
           />
         </Tooltip>
       </Box>
