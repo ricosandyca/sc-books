@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { getBooksByCategory } from '~/services/book';
-import { bookListPaginationState, bookListState } from '~/store/book';
+import {
+  bookListPaginationState,
+  bookListState,
+  filteredBookListState,
+} from '~/store/book';
 
 export function useBookListAction(categoryId: number, initFirstPage: boolean) {
   const [error, setError] = useState<string | null>(null);
@@ -10,6 +14,7 @@ export function useBookListAction(categoryId: number, initFirstPage: boolean) {
   const [pagination, setPagination] = useRecoilState(
     bookListPaginationState(categoryId),
   );
+  const filteredBooks = useRecoilValue(filteredBookListState(categoryId));
 
   const loadMoreBooks = useCallback(async () => {
     try {
@@ -39,5 +44,5 @@ export function useBookListAction(categoryId: number, initFirstPage: boolean) {
     if (initFirstPage) if (pagination.page <= 0) loadMoreBooks();
   }, [initFirstPage, pagination.page]);
 
-  return { books, loadMoreBooks, pagination, error };
+  return { books, filteredBooks, loadMoreBooks, pagination, error };
 }

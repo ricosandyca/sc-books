@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import BookList from '~/components/BookList';
 import BookListSkeleton from '~/components/BookListSkeleton';
 import CategoryList from '~/components/CategoryList';
+import SearchBookInput from '~/components/SearchBookInput';
 import { withContainer } from '~/hoc/with-container';
 import { useBookListAction } from '~/hooks/use-book';
 import { useDocumentTitle } from '~/hooks/use-document-title';
@@ -15,7 +16,7 @@ import { selectedCategoryState } from '~/store/category';
 const BookListByCategory: FC = () => {
   const { categoryId } = useParams();
   const selectedCategory = useRecoilValue(selectedCategoryState(+categoryId!));
-  const { loadMoreBooks, books, pagination, error } = useBookListAction(
+  const { loadMoreBooks, filteredBooks, pagination, error } = useBookListAction(
     +categoryId!,
     true,
   );
@@ -36,16 +37,17 @@ const BookListByCategory: FC = () => {
 
         {/* Category selection */}
         <CategoryList selectedCategoryId={+categoryId!} />
+        <SearchBookInput />
 
         {/* Book list section */}
         <VStack w="full" spacing={[6, 6, 8, null]}>
-          {books.length > 0 && <BookList books={books} />}
+          {filteredBooks.length > 0 && <BookList books={filteredBooks} />}
           {pagination.isLoading && <BookListSkeleton noOfSkeletons={10} />}
         </VStack>
       </VStack>
 
       {/* Load more button */}
-      {pagination.hasNextPage && (
+      {pagination.hasNextPage && !pagination.isLoading && (
         <Button
           variant="outline"
           onClick={loadMoreBooks}

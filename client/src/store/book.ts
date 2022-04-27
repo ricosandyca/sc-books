@@ -29,6 +29,8 @@ export const bookSearchKeywordState = atom<string>({
   default: '',
 });
 
+// supports special keywords search
+// eg. author: John Doe (filter books authored by John Doe only)
 export const filteredBookListState = selectorFamily<Book[], number>({
   key: 'filteredBookListState',
   get:
@@ -39,6 +41,20 @@ export const filteredBookListState = selectorFamily<Book[], number>({
 
       if (!searchKeyword.trim()) return books;
 
+      // special keywords checking
+      const authorSearchingPattern = /^author:/i;
+      if (authorSearchingPattern.test(searchKeyword)) {
+        const authorName = searchKeyword
+          .replace(authorSearchingPattern, '')
+          .trim()
+          .toLowerCase();
+        return books.filter(({ authors }) =>
+          authors.some((author) => author.toLowerCase() === authorName),
+        );
+      }
+
+      // global keywords checking
+      // this checks either book authors or book title
       // filter books by keyword
       const keys = searchKeyword
         .trim()
@@ -49,7 +65,7 @@ export const filteredBookListState = selectorFamily<Book[], number>({
         const authorsStr = book.authors.join(' ').toLowerCase();
         const title = book.title.toLowerCase();
 
-        return keys.some(
+        return keys.every(
           (key) => title.includes(key) || authorsStr.includes(key),
         );
       });

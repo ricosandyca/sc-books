@@ -1,5 +1,8 @@
-import { Image, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Image, Text, VStack } from '@chakra-ui/react';
 import { FC, memo } from 'react';
+import { useSetRecoilState } from 'recoil';
+
+import { bookSearchKeywordState } from '~/store/book';
 
 import { Book } from '~/types/book';
 
@@ -8,6 +11,8 @@ export type BookItemProps = {
 };
 
 const BookItem: FC<BookItemProps> = ({ book }) => {
+  const setSearch = useSetRecoilState(bookSearchKeywordState);
+
   return (
     <VStack spacing={4}>
       {/* Book image */}
@@ -22,7 +27,27 @@ const BookItem: FC<BookItemProps> = ({ book }) => {
         <Text fontSize="md" fontWeight="medium" noOfLines={2}>
           {book.title}
         </Text>
-        <Text fontSize="sm">{book.authors.join(', ')}</Text>
+
+        {/* Author list */}
+        <Box display="inline-block">
+          {book.authors.map((author, i) => (
+            <Button
+              key={i}
+              display="inline"
+              variant="link"
+              size="sm"
+              fontWeight="normal"
+              onClick={() => setSearch(`author: ${author}`)}
+              _after={
+                i < book.authors.length - 1
+                  ? { content: '","', mr: 1 }
+                  : undefined
+              }
+            >
+              {author}
+            </Button>
+          ))}
+        </Box>
       </VStack>
     </VStack>
   );
