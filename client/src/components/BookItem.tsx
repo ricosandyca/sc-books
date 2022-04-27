@@ -91,7 +91,6 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
             color="bg"
             _active={{ bg: 'text' }}
             _hover={{ bg: 'text' }}
-            zIndex={3}
           />
         </Tooltip>
       </Box>
@@ -105,7 +104,6 @@ const BookItem: FC<BookItemProps> = ({ book, showCategory }) => {
             size="xs"
             mb={1}
             maxW="full"
-            noOfLines={1}
           />
         )}
 

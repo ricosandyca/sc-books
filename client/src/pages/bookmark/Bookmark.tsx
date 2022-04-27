@@ -14,7 +14,7 @@ const Bookmark: FC = () => {
   useDocumentTitle('My Bookmark');
 
   return (
-    <VStack spacing={12} w="full" align="flex-start">
+    <VStack spacing={[6, null, null, 8]} w="full" align="flex-start">
       <Heading as="h2" fontSize={['xl', null, null, '2xl']}>
         My Bookmark
       </Heading>

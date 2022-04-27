@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@chakra-ui/react';
+import { Button, ButtonProps, Text } from '@chakra-ui/react';
 import { FC, memo, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,7 +33,9 @@ const CategoryChip: FC<CategoryChipProps> = ({
       borderColor="inherit"
       {...buttonProps}
     >
-      {category.name}
+      <Text noOfLines={1} w="full">
+        {category.name}
+      </Text>
     </Button>
   );
 };

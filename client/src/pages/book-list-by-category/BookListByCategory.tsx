@@ -1,4 +1,4 @@
-import { Button, Heading, VStack } from '@chakra-ui/react';
+import { Box, Button, Heading, VStack } from '@chakra-ui/react';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -27,20 +27,17 @@ const BookListByCategory: FC = () => {
   if (error) return <NotFoundPage />;
 
   return (
-    <VStack spacing={12}>
-      {/* Book list */}
-      <VStack w="full" align="flex-start" spacing={6}>
-        {/* Category title */}
-        <Heading as="h2" fontSize={['xl', null, null, '2xl']}>
-          {selectedCategory?.name}
-        </Heading>
+    <VStack spacing={6} align="flex-start">
+      {/* Category title */}
+      <Heading as="h2" fontSize={['xl', null, null, '2xl']}>
+        {selectedCategory?.name}
+      </Heading>
 
-        {/* Category selection */}
-        <CategoryList selectedCategoryId={+categoryId!} />
+      {/* Category selection */}
+      <CategoryList selectedCategoryId={+categoryId!} />
 
-        {/* Search books input */}
-        <SearchBookInput />
-      </VStack>
+      {/* Search books input */}
+      <SearchBookInput />
 
       {/* Book list section */}
       <VStack w="full" spacing={[6, 6, 8, null]}>
@@ -50,13 +47,15 @@ const BookListByCategory: FC = () => {
 
       {/* Load more button */}
       {pagination.hasNextPage && !pagination.isLoading && (
-        <Button
-          variant="outline"
-          onClick={loadMoreBooks}
-          isLoading={pagination.isLoading}
-        >
-          Load more
-        </Button>
+        <Box pt={6} alignSelf="center">
+          <Button
+            variant="outline"
+            onClick={loadMoreBooks}
+            isLoading={pagination.isLoading}
+          >
+            Load more
+          </Button>
+        </Box>
       )}
     </VStack>
   );
