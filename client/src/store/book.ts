@@ -1,6 +1,7 @@
 import { atom, atomFamily, selectorFamily } from 'recoil';
 
 import { Book, BookPagination } from '~/types/book';
+import { normalizeString } from '~/utils/string';
 import { persistentEffect } from './effects/persistent-effect';
 
 export const bookListState = atomFamily<Book[], number>({
@@ -50,17 +51,16 @@ export const filteredBookListState = selectorFamily<Book[], number>({
       // global keywords checking
       // this checks either book authors or book title
       // filter books by keyword
-      const keys = searchKeyword
-        .trim()
-        .toLowerCase()
-        .split(/[^0-9a-z]/gi);
+      const keys = normalizeString(searchKeyword).split(/[^0-9a-z]/gi);
 
       return books.filter((book) => {
         const authorsStr = book.authors.join(' ').toLowerCase();
         const title = book.title.toLowerCase();
 
         return keys.every(
-          (key) => title.includes(key) || authorsStr.includes(key),
+          (key) =>
+            normalizeString(title).includes(key) ||
+            normalizeString(authorsStr).includes(key),
         );
       });
     },
