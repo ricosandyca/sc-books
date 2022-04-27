@@ -31,20 +31,21 @@ const BookListByCategory: FC = () => {
       {/* Book list */}
       <VStack w="full" align="flex-start" spacing={6}>
         {/* Category title */}
-        <Heading as="h2" fontSize="2xl">
+        <Heading as="h2" fontSize={['xl', null, null, '2xl']}>
           {selectedCategory?.name}
         </Heading>
 
         {/* Category selection */}
         <CategoryList selectedCategoryId={+categoryId!} />
 
+        {/* Search books input */}
         <SearchBookInput />
+      </VStack>
 
-        {/* Book list section */}
-        <VStack w="full" spacing={[6, 6, 8, null]}>
-          {filteredBooks.length > 0 && <BookList books={filteredBooks} />}
-          {pagination.isLoading && <BookListSkeleton noOfSkeletons={10} />}
-        </VStack>
+      {/* Book list section */}
+      <VStack w="full" spacing={[6, 6, 8, null]}>
+        {filteredBooks.length > 0 && <BookList books={filteredBooks} />}
+        {pagination.isLoading && <BookListSkeleton noOfSkeletons={10} />}
       </VStack>
 
       {/* Load more button */}
