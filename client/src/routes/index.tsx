@@ -2,6 +2,7 @@ import { RouteObject, useRoutes } from 'react-router-dom';
 import { withBookCategory } from '~/hoc/with-book-category';
 
 import { withShell } from '~/hoc/with-shell';
+import BookDetail from '~/pages/book-detail';
 import BookListByCategory from '~/pages/book-list-by-category';
 import Bookmark from '~/pages/bookmark';
 import MainPage from '~/pages/main';
@@ -20,6 +21,10 @@ const routes: RouteObject[] = [
   {
     path: '/bookmark',
     element: <Bookmark />,
+  },
+  {
+    path: '/books/:bookId',
+    element: <BookDetail />,
   },
   {
     path: '*',
