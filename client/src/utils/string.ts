@@ -1,14 +1,10 @@
 /**
  * Normalize string
- * By removing all character accesnts or diacritics
+ * By removing all character accents or diacritics
  *
  * @param str string to normalize
  * @returns normalized string
  */
 export function normalizeString(str: string) {
-  return str
-    .trim()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }

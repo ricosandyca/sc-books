@@ -51,7 +51,10 @@ export const filteredBookListState = selectorFamily<Book[], number>({
       // global keywords checking
       // this checks either book authors or book title
       // filter books by keyword
-      const keys = normalizeString(searchKeyword).split(/[^0-9a-z]/gi);
+      const keys = normalizeString(searchKeyword)
+        .trim()
+        .toLowerCase()
+        .split(/[^0-9a-z]/gi);
 
       return books.filter((book) => {
         const authorsStr = book.authors.join(' ').toLowerCase();
@@ -59,8 +62,8 @@ export const filteredBookListState = selectorFamily<Book[], number>({
 
         return keys.every(
           (key) =>
-            normalizeString(title).includes(key) ||
-            normalizeString(authorsStr).includes(key),
+            normalizeString(title).trim().toLowerCase().includes(key) ||
+            normalizeString(authorsStr).trim().toLowerCase().includes(key),
         );
       });
     },
