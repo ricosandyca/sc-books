@@ -18,7 +18,7 @@ const RecoilObserver: FC<RecoilObserverProps<any>> = ({ node, onChange }) => {
 };
 
 describe('SearchBookInput component testing', () => {
-  it('Should render book detail modal component correctly', async () => {
+  it('Should change search input component correctly', () => {
     const onChange = jest.fn();
 
     render(
