@@ -19,7 +19,12 @@ const BookListSkeleton: FC<BookListSkeletonProps> = ({ noOfSkeletons }) => {
     <Box w="full">
       <SimpleGrid columns={[2, 3, 4, 4, 5]} spacing={[6, 6, 8, null]}>
         {nums.map((n) => (
-          <VStack key={n} w="full" spacing={4}>
+          <VStack
+            key={n}
+            data-testid={`skeleton-loading-${n}`}
+            w="full"
+            spacing={4}
+          >
             <Skeleton w="full" h="320px" rounded="lg" />
             <VStack spacing={2} w="full">
               <SkeletonText alignSelf="flex-start" noOfLines={1} w="90%" />
