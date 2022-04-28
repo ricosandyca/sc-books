@@ -79,7 +79,7 @@ const Shell: FC<ShellProps> = ({ children }) => {
         top={0}
         w="full"
         h="80px"
-        zIndex={2}
+        zIndex={100}
         bg={alphaBg}
         backdropFilter="blur(10px) saturate(180%)"
         shadow="sm"

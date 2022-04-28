@@ -221,6 +221,7 @@ export const BookModalContent: FC<BookModalContentProps> = ({
                   fontWeight="medium"
                   fontSize="sm"
                   px={0}
+                  py={3}
                   _focus={{ boxShadow: 'none' }}
                 >
                   <HStack spacing={3}>
