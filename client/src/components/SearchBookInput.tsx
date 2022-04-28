@@ -21,6 +21,7 @@ const SearchBookInput: FC<InputGroupProps> = (props) => {
     <InputGroup size="md" {...props}>
       <InputLeftElement children={<Icon fontSize="lg" as={FiSearch} />} />
       <Input
+        data-testid="book-search-input"
         placeholder="Search your favorite title or author"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
