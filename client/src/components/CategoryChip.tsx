@@ -1,19 +1,21 @@
 import { Button, ButtonProps, Text } from '@chakra-ui/react';
-import { FC, memo, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { categoryListState } from '~/store/category';
 
 import { textToColor } from '~/utils/color';
 
-export type CategoryChipProps = ButtonProps & {
+export type CategoryChipProps = Omit<ButtonProps, 'onClick'> & {
   categoryId: number;
   isActive: boolean;
+  onClick?: (navigate: () => any) => any;
 };
 
 const CategoryChip: FC<CategoryChipProps> = ({
   categoryId,
   isActive,
+  onClick,
   ...buttonProps
 }) => {
   const navigate = useNavigate();
@@ -27,6 +29,11 @@ const CategoryChip: FC<CategoryChipProps> = ({
     return textToColor(`${category?.name}`);
   }, [category?.name]);
 
+  const handleClick = useCallback(() => {
+    if (!category) return;
+    navigate(`/categories/${category.id}/books`);
+  }, [navigate, category]);
+
   if (!category) return null;
 
   return (
@@ -38,7 +45,7 @@ const CategoryChip: FC<CategoryChipProps> = ({
       fontWeight="medium"
       flexShrink={0}
       variant={isActive ? 'solid' : 'outline'}
-      onClick={() => navigate(`/categories/${category.id}/books`)}
+      onClick={() => (onClick ? onClick(handleClick) : handleClick())}
       borderColor="inherit"
       {...buttonProps}
     >

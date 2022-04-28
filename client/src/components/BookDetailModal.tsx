@@ -44,12 +44,14 @@ const BookDetailModal: FC = () => {
       isOpen={!!book}
       onClose={handleCloseModal}
       size={isMDDown ? 'full' : '6xl'}
-      scrollBehavior="inside"
-      isCentered
     >
       <ModalOverlay />
       {book && (
-        <ModalContent bg="bg" overflow="hidden">
+        <ModalContent
+          bg="bg"
+          overflow="hidden"
+          rounded={isMDDown ? 'none' : 'lg'}
+        >
           <ModalBody p={0} position="relative">
             {/* Close button */}
             <IconButton
@@ -86,7 +88,7 @@ const BookDetailModal: FC = () => {
 
             {/* Book info */}
             <Box position="relative" zIndex={2}>
-              <BookModalContent book={book} />
+              <BookModalContent book={book} onCloseModal={handleCloseModal} />
             </Box>
           </ModalBody>
         </ModalContent>
@@ -97,9 +99,13 @@ const BookDetailModal: FC = () => {
 
 export type BookModalContentProps = {
   book: Book;
+  onCloseModal: () => any;
 };
 
-export const BookModalContent: FC<BookModalContentProps> = ({ book }) => {
+export const BookModalContent: FC<BookModalContentProps> = ({
+  book,
+  onCloseModal,
+}) => {
   const isMDDown = useBreakpointValue({ base: true, lg: false });
   const { isBookmarked, handleToggleBookmark } = useBookmarkAction(book.id);
   const MainStack = isMDDown ? VStack : HStack;
@@ -112,10 +118,10 @@ export const BookModalContent: FC<BookModalContentProps> = ({ book }) => {
       >
         {/* Left content */}
         <VStack spacing={3}>
-          <Image alt={book.title} src={book.cover_url} w="260px" rounded="lg" />
+          <Image alt={book.title} src={book.cover_url} w="240px" rounded="lg" />
 
-          <HStack w="full" h="38px" alignItems="center">
-            {/* Audio length */}
+          <HStack spacing={3} w="full" h="40px" alignItems="center">
+            {/* No of sections */}
             <HStack
               flex={1}
               h="full"
@@ -137,8 +143,8 @@ export const BookModalContent: FC<BookModalContentProps> = ({ book }) => {
             >
               <IconButton
                 aria-label="Bookmark"
-                h="38px"
-                w="38px"
+                h="40px"
+                w="40px"
                 icon={
                   <Icon
                     fontSize="xl"
@@ -163,6 +169,10 @@ export const BookModalContent: FC<BookModalContentProps> = ({ book }) => {
             size="sm"
             mb={1}
             maxW="full"
+            onClick={(navigate) => {
+              navigate();
+              onCloseModal();
+            }}
             isActive
           />
 
@@ -175,7 +185,7 @@ export const BookModalContent: FC<BookModalContentProps> = ({ book }) => {
           </Text>
 
           {/* Book sections */}
-          <Accordion w="full" allowToggle>
+          <Accordion w="full" allowToggle allowMultiple>
             {book.sections.map((section, i) => (
               <AccordionItem key={i} borderTop={0} borderBottomWidth="1px">
                 <AccordionButton
@@ -186,8 +196,8 @@ export const BookModalContent: FC<BookModalContentProps> = ({ book }) => {
                 >
                   <HStack spacing={3}>
                     <Center
-                      w="20px"
-                      h="20px"
+                      w="22px"
+                      h="22px"
                       color="bg"
                       bg="primary"
                       rounded="full"
@@ -198,12 +208,7 @@ export const BookModalContent: FC<BookModalContentProps> = ({ book }) => {
                     <Text>{section.title}</Text>
                   </HStack>
                 </AccordionButton>
-                <AccordionPanel
-                  color="subtext"
-                  fontSize="sm"
-                  lineHeight={1.75}
-                  pl="30px"
-                >
+                <AccordionPanel color="subtext" lineHeight={1.75} pl="34px">
                   {section.content}
                 </AccordionPanel>
               </AccordionItem>
