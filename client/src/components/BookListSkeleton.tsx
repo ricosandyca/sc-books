@@ -25,7 +25,7 @@ const BookListSkeleton: FC<BookListSkeletonProps> = ({ noOfSkeletons }) => {
             w="full"
             spacing={4}
           >
-            <Skeleton w="full" h="320px" rounded="lg" />
+            <Skeleton w="full" h={['270px', '336px']} rounded="lg" />
             <VStack spacing={2} w="full">
               <SkeletonText alignSelf="flex-start" noOfLines={1} w="90%" />
               <SkeletonText alignSelf="flex-start" noOfLines={1} w="40%" />
