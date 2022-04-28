@@ -11,7 +11,7 @@ export type Book = {
   cover_url: string;
   description: string;
   sections: BookSection[];
-  audio_length: 840;
+  audio_length: number;
 };
 
 export type BookPagination = {
