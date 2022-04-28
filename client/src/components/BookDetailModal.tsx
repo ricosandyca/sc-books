@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Button,
   Center,
   Container,
   Heading,
@@ -24,10 +25,11 @@ import { FC, memo, useCallback } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { MdBookmarkRemove, MdOutlineBookmarkAdd } from 'react-icons/md';
 import { VscListSelection } from 'react-icons/vsc';
-import { useRecoilState } from 'recoil';
-import { useBookmarkAction } from '~/hooks/use-bookmark';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { bookModalState } from '~/store/book';
+import { useBookmarkAction } from '~/hooks/use-bookmark';
+import { bookModalState, bookSearchKeywordState } from '~/store/book';
 import { Book } from '~/types/book';
 import CategoryChip from './CategoryChip';
 
@@ -106,7 +108,9 @@ export const BookModalContent: FC<BookModalContentProps> = ({
   book,
   onCloseModal,
 }) => {
+  const navigate = useNavigate();
   const isMDDown = useBreakpointValue({ base: true, lg: false });
+  const setSearch = useSetRecoilState(bookSearchKeywordState);
   const { isBookmarked, handleToggleBookmark } = useBookmarkAction(book.id);
   const MainStack = isMDDown ? VStack : HStack;
 
@@ -178,6 +182,31 @@ export const BookModalContent: FC<BookModalContentProps> = ({
 
           {/* Book title */}
           <Heading>{book.title}</Heading>
+
+          {/* Author list */}
+          <Box display="inline-block">
+            {book.authors.map((author, i) => (
+              <Button
+                key={i}
+                display="inline"
+                variant="link"
+                fontWeight="normal"
+                colorScheme="primary"
+                onClick={() => {
+                  setSearch(`author: ${author}`);
+                  navigate(`/categories/${book.category_id}/books`);
+                  onCloseModal();
+                }}
+                _after={
+                  i < book.authors.length - 1
+                    ? { content: '","', mr: 1 }
+                    : undefined
+                }
+              >
+                {author}
+              </Button>
+            ))}
+          </Box>
 
           {/* Book description */}
           <Text color="subtext" lineHeight={1.75}>
